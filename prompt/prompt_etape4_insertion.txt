@@ -1,0 +1,46 @@
+=====================================================================
+Prompt utilisé à l'étape 4 : génération des données d'insertion
+Structure : framework RICARDO
+=====================================================================
+
+[R - RÔLE]
+Tu es administrateur de bases de données MySQL dans une entreprise de location et de gestion de flotte automobile comparable à Sixt, Hertz ou Europcar. Tu connais aussi le métier : réseau d'agences en gare et en aéroport, catégories de véhicules au code ACRISS, contrats de location, entretiens et réparations.
+
+[I - INSTRUCTIONS]
+1. Lis le script de création des tables et le script des contraintes fournis en référence.
+2. Génère un script MySQL d'insertion qui remplit toutes les tables, dans l'ordre des dépendances : agence, categorie, permis, client, employe, voiture, contrat, intervention.
+3. Pour chaque véhicule, construis un historique chronologique de locations, avec des temps morts entre deux locations. Une partie des entretiens et réparations se place dans ces temps morts.
+4. Avant de répondre, vérifie toi-même que chaque ligne respecte toutes les contraintes et toutes les règles de gestion listées ci-dessous.
+
+[C - CONTEXTE]
+- La base sert au système d'information d'un loueur. Elle a été conçue avec MERISE à partir des règles de gestion et du dictionnaire de données de l'étape 1.
+- La date du jour du jeu de données est le samedi 7 novembre 2026 à 10h00. Les locations clôturées ont lieu entre juillet et début novembre 2026.
+- Le réseau compte 6 agences : Paris Gare de Lyon, Paris Montparnasse, Aéroport Paris-Charles de Gaulle T2, Aéroport Paris-Orly, Lyon Part-Dieu et Marseille Saint-Charles.
+- Les données serviront ensuite à un scénario de requêtes vu depuis l'agence Paris Gare de Lyon (étape 5). Elles doivent donc contenir des situations variées et réalistes.
+
+[A - CONTRAINTES ADDITIONNELLES]
+- Volumes : 6 agences, 7 catégories, 20 clients (dont 6 professionnels) avec 20 permis, 22 employés (un responsable par agence), 24 véhicules, environ 80 contrats et environ 30 interventions.
+- Respecter toutes les contraintes du script : clés primaires et étrangères, NOT NULL, UNIQUE, CHECK (formats CLI00001, EMP00001, CT2026-00001, INT0000001 et AB-123-CD ; listes de valeurs ; raison sociale uniquement pour les professionnels ; dates et kilométrages cohérents).
+- Respecter aussi les règles de gestion qu'aucune contrainte SQL ne vérifie :
+  * le contrat est établi par un employé de l'agence de départ ;
+  * le permis a au moins 1 an au départ, et au moins 2 ans pour une berline premium ou un utilitaire 12 m3 ;
+  * un véhicule n'a jamais deux locations qui se chevauchent ;
+  * un véhicule n'a pas d'intervention pendant une location ;
+  * le kilométrage de départ d'une location est égal au kilométrage de retour de la location précédente du même véhicule ;
+  * chaque client a au moins un contrat, chaque catégorie au moins un véhicule, chaque agence au moins un employé (cardinalités 1,n du MCD).
+- Inclure : 6 locations en cours, dont une en retard (retour prévu avant le 07/11) ; 6 réservations à venir sans véhicule attribué ; 3 annulations, dont 2 de plus de 6 mois ; des retours en retard parmi les locations clôturées ; des locations aller simple ; 2 clients qui ont leur permis depuis moins de 2 ans ; quelques interventions planifiées après le 07/11.
+- Données fictives : aucune personne ni entreprise réelle. Adresses e-mail en "@exemple.fr".
+- Valeurs réalistes : vrais modèles de véhicules pour chaque catégorie, tarifs proches de ceux des loueurs, coûts d'entretien plausibles.
+
+[R - RÉFÉRENCES]
+- Script de création des tables : sql/01_creation_tables.sql
+- Script des contraintes : sql/02_contraintes.sql
+- Règles de gestion et dictionnaire de données de l'étape 1 (README.md)
+- Offres et catégories de véhicules présentées sur https://www.sixt.fr
+- Codes de catégories de véhicules ACRISS : https://www.acriss.org/car-codes/
+
+[D - RENDEMENT DÉSIRÉ]
+Un seul script SQL exécutable dans MySQL 8 : un INSERT INTO … VALUES multi-lignes par table, en précisant toujours la liste des colonnes, avec avant chaque bloc un commentaire qui donne le nombre de lignes. Contrats triés par date de départ et numérotés CT2026-00001, CT2026-00002, etc. Interventions triées par date et numérotées INT0000001, INT0000002, etc.
+
+[O - OBJECTIFS]
+Obtenir un jeu de données qui s'exécute sans aucune erreur après les scripts 01 et 02, qui respecte toutes les règles de gestion, et qui est assez varié pour que chaque requête du scénario de l'étape 5 renvoie un résultat utile.

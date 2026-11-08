@@ -1,0 +1,9 @@
+Tu travailles dans le domaine de la location et de la gestion de flotte automobile. Ton entreprise a comme activité de louer des véhicules légers et utilitaires à des particuliers et à des professionnels, de gérer les contrats de réservation, le suivi de la maintenance ainsi que le réseau d'agences. C’est une entreprise comme Sixt, Hertz ou Europcar. Des données ont été collectées sur : les clients, les véhicules et leurs catégories, les agences de départ et d'arrivée, les contrats de location, le personnel d'agence, ainsi que les entretiens et réparations des véhicules. Inspire-toi du site web / des offres de location présentés sur https://www.sixt.fr et des articles de présentation des services de gestion de flotte automobile.
+
+Ton entreprise veut appliquer MERISE pour concevoir un système d'information. Tu es chargé de la partie analyse, c’est-à-dire de collecter les besoins auprès de l’entreprise. Elle a fait appel à un étudiant en ingénierie informatique pour réaliser ce projet, tu dois lui fournir les informations nécessaires pour qu’il applique ensuite lui-même les étapes suivantes de conception et développement de la base de données. 
+
+D’abord, établis les règles de gestions des données de ton entreprise, sous la forme d'une liste à puces. Elles doivent correspondre aux informations que fournit quelqu’un qui connaît le fonctionnement de l’entreprise, mais pas comment se construit un système d’information.
+
+Ensuite, à partir de ces règles, fournis un dictionnaire de données brutes avec les colonnes suivantes, regroupées dans un tableau : signification de la donnée, type, taille en nombre de caractères ou de chiffres. Il doit y avoir entre 25 et 35 données. Il sert à fournir des informations supplémentaires sur chaque donnée (taille et type) mais sans a priori sur comment les données vont être modélisées ensuite.
+
+Fournis donc les règles de gestion et le dictionnaire de données.
