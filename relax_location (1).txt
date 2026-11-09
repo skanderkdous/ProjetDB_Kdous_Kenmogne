@@ -1,0 +1,139 @@
+group: Location voitures
+
+client = {
+numero_client:string, nom_client:string, type_client:string, raison_sociale_client:string
+'CLI00001', 'Martin', 'particulier', null
+'CLI00002', 'Dubois', 'particulier', null
+'CLI00003', 'Ngo', 'particulier', null
+'CLI00004', 'Traoré', 'particulier', null
+'CLI00005', 'Lefebvre', 'particulier', null
+'CLI00006', 'Moreau', 'professionnel', 'Cabinet Moreau Avocats'
+'CLI00007', 'Simon', 'particulier', null
+'CLI00008', 'Michel', 'professionnel', 'Batiself SARL'
+'CLI00009', 'Essomba', 'particulier', null
+'CLI00010', 'Laurent', 'particulier', null
+'CLI00011', 'Richard', 'professionnel', 'TransExpress Logistique'
+'CLI00012', 'Bonnet', 'particulier', null
+'CLI00013', 'Durand', 'professionnel', 'Lumière Events SAS'
+'CLI00014', 'Kamara', 'particulier', null
+'CLI00015', 'Perrin', 'particulier', null
+'CLI00016', 'Gauthier', 'professionnel', 'GreenPro Paysage'
+'CLI00017', 'Lambert', 'particulier', null
+'CLI00018', 'Robin', 'professionnel', 'Studio Kappa Production'
+'CLI00019', 'Fabre', 'particulier', null
+'CLI00020', 'Petit', 'particulier', null
+}
+
+contrat = {
+num_contrat:string, statut_contrat:string, numero_client:string, immatriculation_voiture:string
+'CT2026-00001', 'annule', 'CLI00012', null
+'CT2026-00002', 'annule', 'CLI00006', null
+'CT2026-00003', 'cloture', 'CLI00003', 'GN-648-TK'
+'CT2026-00004', 'cloture', 'CLI00001', 'GL-519-AZ'
+'CT2026-00005', 'cloture', 'CLI00012', 'GR-734-EN'
+'CT2026-00006', 'cloture', 'CLI00018', 'GE-409-XA'
+'CT2026-00007', 'cloture', 'CLI00008', 'GG-923-VW'
+'CT2026-00008', 'cloture', 'CLI00001', 'GS-401-YV'
+'CT2026-00009', 'cloture', 'CLI00003', 'GB-587-PM'
+'CT2026-00010', 'cloture', 'CLI00006', 'FT-556-MW'
+'CT2026-00011', 'cloture', 'CLI00012', 'FY-671-BC'
+'CT2026-00012', 'cloture', 'CLI00002', 'GP-873-LC'
+'CT2026-00013', 'cloture', 'CLI00020', 'GA-214-KL'
+'CT2026-00014', 'cloture', 'CLI00014', 'GH-045-JC'
+'CT2026-00015', 'cloture', 'CLI00019', 'GF-118-TB'
+'CT2026-00016', 'cloture', 'CLI00013', 'FZ-845-HD'
+'CT2026-00017', 'cloture', 'CLI00015', 'GD-330-NS'
+'CT2026-00018', 'cloture', 'CLI00003', 'GT-962-PB'
+'CT2026-00019', 'cloture', 'CLI00008', 'FV-115-GR'
+'CT2026-00020', 'cloture', 'CLI00012', 'GQ-290-DF'
+'CT2026-00021', 'cloture', 'CLI00004', 'GK-382-MP'
+'CT2026-00022', 'cloture', 'CLI00005', 'GL-519-AZ'
+'CT2026-00023', 'cloture', 'CLI00007', 'GJ-761-SD'
+'CT2026-00024', 'cloture', 'CLI00002', 'GN-648-TK'
+'CT2026-00025', 'cloture', 'CLI00008', 'FX-256-LE'
+'CT2026-00026', 'cloture', 'CLI00005', 'GC-102-RT'
+'CT2026-00027', 'cloture', 'CLI00018', 'GE-409-XA'
+'CT2026-00028', 'cloture', 'CLI00012', 'FW-934-QN'
+'CT2026-00029', 'cloture', 'CLI00004', 'FT-556-MW'
+'CT2026-00030', 'cloture', 'CLI00019', 'GB-587-PM'
+'CT2026-00031', 'cloture', 'CLI00017', 'GM-207-HB'
+'CT2026-00032', 'cloture', 'CLI00003', 'GP-873-LC'
+'CT2026-00033', 'cloture', 'CLI00003', 'GS-401-YV'
+'CT2026-00034', 'cloture', 'CLI00019', 'GH-045-JC'
+'CT2026-00035', 'cloture', 'CLI00007', 'GT-962-PB'
+'CT2026-00036', 'cloture', 'CLI00014', 'GG-923-VW'
+'CT2026-00037', 'cloture', 'CLI00017', 'GA-214-KL'
+'CT2026-00038', 'cloture', 'CLI00006', 'FV-115-GR'
+'CT2026-00039', 'cloture', 'CLI00002', 'GR-734-EN'
+'CT2026-00040', 'cloture', 'CLI00004', 'GJ-761-SD'
+'CT2026-00041', 'cloture', 'CLI00012', 'FZ-845-HD'
+'CT2026-00042', 'cloture', 'CLI00015', 'GD-330-NS'
+'CT2026-00043', 'cloture', 'CLI00013', 'GL-519-AZ'
+'CT2026-00044', 'cloture', 'CLI00009', 'GF-118-TB'
+'CT2026-00045', 'cloture', 'CLI00011', 'FX-256-LE'
+'CT2026-00046', 'cloture', 'CLI00013', 'FY-671-BC'
+'CT2026-00047', 'cloture', 'CLI00010', 'GB-587-PM'
+'CT2026-00048', 'cloture', 'CLI00019', 'GQ-290-DF'
+'CT2026-00049', 'cloture', 'CLI00001', 'GK-382-MP'
+'CT2026-00050', 'cloture', 'CLI00013', 'FV-115-GR'
+'CT2026-00051', 'cloture', 'CLI00011', 'GC-102-RT'
+'CT2026-00052', 'cloture', 'CLI00003', 'GN-648-TK'
+'CT2026-00053', 'cloture', 'CLI00004', 'FW-934-QN'
+'CT2026-00054', 'cloture', 'CLI00019', 'GL-519-AZ'
+'CT2026-00055', 'cloture', 'CLI00016', 'FY-671-BC'
+'CT2026-00056', 'cloture', 'CLI00014', 'GP-873-LC'
+'CT2026-00057', 'cloture', 'CLI00007', 'FZ-845-HD'
+'CT2026-00058', 'cloture', 'CLI00001', 'FT-556-MW'
+'CT2026-00059', 'cloture', 'CLI00005', 'GE-409-XA'
+'CT2026-00060', 'cloture', 'CLI00012', 'GD-330-NS'
+'CT2026-00061', 'cloture', 'CLI00015', 'GS-401-YV'
+'CT2026-00062', 'cloture', 'CLI00004', 'GB-587-PM'
+'CT2026-00063', 'cloture', 'CLI00003', 'GC-102-RT'
+'CT2026-00064', 'cloture', 'CLI00019', 'GM-207-HB'
+'CT2026-00065', 'cloture', 'CLI00010', 'GN-648-TK'
+'CT2026-00066', 'cloture', 'CLI00006', 'FX-256-LE'
+'CT2026-00067', 'cloture', 'CLI00019', 'GH-045-JC'
+'CT2026-00068', 'cloture', 'CLI00002', 'GG-923-VW'
+'CT2026-00069', 'cloture', 'CLI00014', 'GR-734-EN'
+'CT2026-00070', 'en cours', 'CLI00001', 'GK-382-MP'
+'CT2026-00071', 'en cours', 'CLI00010', 'GB-587-PM'
+'CT2026-00072', 'en cours', 'CLI00006', 'FX-256-LE'
+'CT2026-00073', 'en cours', 'CLI00003', 'GT-962-PB'
+'CT2026-00074', 'en cours', 'CLI00001', 'GD-330-NS'
+'CT2026-00075', 'en cours', 'CLI00003', 'GQ-290-DF'
+'CT2026-00076', 'reserve', 'CLI00012', null
+'CT2026-00077', 'reserve', 'CLI00004', null
+'CT2026-00078', 'reserve', 'CLI00012', null
+'CT2026-00079', 'annule', 'CLI00010', null
+'CT2026-00080', 'reserve', 'CLI00002', null
+'CT2026-00081', 'reserve', 'CLI00012', null
+'CT2026-00082', 'reserve', 'CLI00001', null
+}
+
+voiture = {
+immatriculation_voiture:string, marque_voiture:string, modele_vehicule:string, id_categorie:string
+'FT-556-MW', 'Renault', 'Master', 'FKMD'
+'FV-115-GR', 'Citroën', 'Jumpy', 'CKMD'
+'FW-934-QN', 'Renault', 'Captur', 'IFAR'
+'FX-256-LE', 'Renault', 'Kangoo', 'CKMD'
+'FY-671-BC', 'BMW', 'Série 5', 'PDAR'
+'FZ-845-HD', 'Volkswagen', 'Golf', 'CDMR'
+'GA-214-KL', 'Fiat', '500', 'MBMR'
+'GB-587-PM', 'Peugeot', '208', 'ECMR'
+'GC-102-RT', 'Renault', 'Clio', 'ECMR'
+'GD-330-NS', 'Peugeot', '3008', 'IFAR'
+'GE-409-XA', 'Renault', 'Master', 'FKMD'
+'GF-118-TB', 'Toyota', 'Yaris', 'ECMR'
+'GG-923-VW', 'Tesla', 'Model 3', 'PDAR'
+'GH-045-JC', 'Peugeot', '308', 'CDMR'
+'GJ-761-SD', 'Mercedes', 'Classe E', 'PDAR'
+'GK-382-MP', 'Volkswagen', 'Tiguan', 'IFAR'
+'GL-519-AZ', 'Peugeot', 'e-208', 'ECMR'
+'GM-207-HB', 'Citroën', 'C3', 'ECMR'
+'GN-648-TK', 'Skoda', 'Octavia', 'CDMR'
+'GP-873-LC', 'Renault', 'Clio', 'ECMR'
+'GQ-290-DF', 'Peugeot', '3008', 'IFAR'
+'GR-734-EN', 'Fiat', '500e', 'MBMR'
+'GS-401-YV', 'Dacia', 'Sandero', 'ECMR'
+'GT-962-PB', 'Kia', 'Sportage', 'IFAR'
+}
