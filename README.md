@@ -142,7 +142,7 @@ Nous n'avons pas eu besoin de relancer le prompt.
 
 ### 2.1 MCD
 
-![MCD](mcdprojet/mcd_v2_reference.png)
+![MCD](mcdprojet/MCD_BDD.png)
 
 Fichier source Looping : `mcdprojet/MCD.loo`. La version rendue le 16/10 reste consultable dans l'historique des commits.
 
