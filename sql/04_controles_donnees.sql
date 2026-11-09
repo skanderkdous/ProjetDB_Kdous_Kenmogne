@@ -76,4 +76,13 @@ UNION ALL
 SELECT 'MCD - agence sans employé (travaille 1,n)',
        COUNT(*)
 FROM agence a
-WHERE NOT EXISTS (SELECT 1 FROM employe e WHERE e.id_agence = a.id_agence);
+WHERE NOT EXISTS (SELECT 1 FROM employe e WHERE e.id_agence = a.id_agence)
+
+UNION ALL
+
+-- R6 : une location en cours ou clôturée a toujours un véhicule attribué
+SELECT 'R6 - location partie sans véhicule',
+       COUNT(*)
+FROM contrat c
+WHERE c.statut_contrat IN ('en cours', 'cloture')
+  AND c.immatriculation_voiture IS NULL;
