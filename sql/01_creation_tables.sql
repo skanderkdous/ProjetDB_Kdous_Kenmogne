@@ -43,6 +43,7 @@ CREATE TABLE client (
     CONSTRAINT pk_client PRIMARY KEY (numero_client),
     CONSTRAINT fk_client_permis FOREIGN KEY (numero_permis)
         REFERENCES permis (numero_permis)
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- EMPLOYE (matricule_employe, ..., #id_agence)
@@ -56,6 +57,7 @@ CREATE TABLE employe (
     CONSTRAINT pk_employe PRIMARY KEY (matricule_employe),
     CONSTRAINT fk_employe_agence FOREIGN KEY (id_agence)
         REFERENCES agence (id_agence)
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- VOITURE (immatriculation_voiture, ..., #id_categorie, #id_agence)
@@ -69,9 +71,11 @@ CREATE TABLE voiture (
     id_agence               VARCHAR(6)  NOT NULL,
     CONSTRAINT pk_voiture PRIMARY KEY (immatriculation_voiture),
     CONSTRAINT fk_voiture_categorie FOREIGN KEY (id_categorie)
-        REFERENCES categorie (id_categorie),
+        REFERENCES categorie (id_categorie)
+        ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT fk_voiture_agence FOREIGN KEY (id_agence)
         REFERENCES agence (id_agence)
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CONTRAT (num_contrat, ..., #numero_client, #matricule_employe,
@@ -90,15 +94,20 @@ CREATE TABLE contrat (
     immatriculation_voiture   VARCHAR(9),
     CONSTRAINT pk_contrat PRIMARY KEY (num_contrat),
     CONSTRAINT fk_contrat_client FOREIGN KEY (numero_client)
-        REFERENCES client (numero_client),
+        REFERENCES client (numero_client)
+        ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT fk_contrat_employe FOREIGN KEY (matricule_employe)
-        REFERENCES employe (matricule_employe),
+        REFERENCES employe (matricule_employe)
+        ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT fk_contrat_agence_depart FOREIGN KEY (id_agence_depart)
-        REFERENCES agence (id_agence),
+        REFERENCES agence (id_agence)
+        ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT fk_contrat_agence_retour FOREIGN KEY (id_agence_retour)
-        REFERENCES agence (id_agence),
+        REFERENCES agence (id_agence)
+        ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT fk_contrat_voiture FOREIGN KEY (immatriculation_voiture)
         REFERENCES voiture (immatriculation_voiture)
+        ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- INTERVENTION (num_intervention, ..., #immatriculation_voiture)
@@ -111,4 +120,5 @@ CREATE TABLE intervention (
     CONSTRAINT pk_intervention PRIMARY KEY (num_intervention),
     CONSTRAINT fk_intervention_voiture FOREIGN KEY (immatriculation_voiture)
         REFERENCES voiture (immatriculation_voiture)
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
