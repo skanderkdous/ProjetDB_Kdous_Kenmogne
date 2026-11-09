@@ -333,6 +333,15 @@ GROUP BY v.immatriculation_voiture, v.marque_voiture, v.modele_vehicule
 HAVING COUNT(*) >= 2
 ORDER BY nb_interventions DESC, cout_moyen DESC;
 
+-- Entreprises clientes ayant déjà loué une berline premium (requête étudiée au 5.5 du README : plans d'exécution)
+SELECT DISTINCT cl.raison_sociale_client
+FROM client cl
+JOIN contrat c ON c.numero_client = cl.numero_client
+JOIN voiture v ON v.immatriculation_voiture = c.immatriculation_voiture
+WHERE cl.type_client = 'professionnel'
+  AND c.statut_contrat = 'cloture'
+  AND v.id_categorie = 'PDAR';
+
 -- Hausse de 5 % du tarif journalier de la catégorie IFAR
 UPDATE categorie
 SET tarif_journalier_categorie = ROUND(tarif_journalier_categorie * 1.05, 2)
