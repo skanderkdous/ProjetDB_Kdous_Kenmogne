@@ -1,6 +1,3 @@
-
-
--- Suppression dans l'ordre inverse des dépendances : le script est relançable
 DROP TABLE IF EXISTS intervention;
 DROP TABLE IF EXISTS contrat;
 DROP TABLE IF EXISTS voiture;
@@ -34,7 +31,6 @@ CREATE TABLE permis (
 );
 
 -- CLIENT (numero_client, ..., #numero_permis)
--- "possède" (1,1 - 1,1) -> clé étrangère vers PERMIS
 CREATE TABLE client (
     numero_client         VARCHAR(8)   NOT NULL,
     nom_client            VARCHAR(50)  NOT NULL,
@@ -63,8 +59,6 @@ CREATE TABLE employe (
 );
 
 -- VOITURE (immatriculation_voiture, ..., #id_categorie, #id_agence)
--- "appartient" (1,1 - 1,n)   -> clé étrangère vers CATEGORIE
--- "est rattaché" (1,1 - 0,n) -> clé étrangère vers AGENCE
 CREATE TABLE voiture (
     immatriculation_voiture VARCHAR(9)  NOT NULL,
     marque_voiture          VARCHAR(30) NOT NULL,
@@ -108,7 +102,6 @@ CREATE TABLE contrat (
 );
 
 -- INTERVENTION (num_intervention, ..., #immatriculation_voiture)
--- "subit" (1,1 - 0,n) -> clé étrangère vers VOITURE
 CREATE TABLE intervention (
     num_intervention        VARCHAR(10)  NOT NULL,
     date_intervention       DATE         NOT NULL,
