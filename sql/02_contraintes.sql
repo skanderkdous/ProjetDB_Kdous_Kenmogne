@@ -71,4 +71,5 @@ ALTER TABLE contrat ADD CONSTRAINT ck_contrat_km_positifs
 
 -- Le kilométrage de retour n'est pas inférieur à celui de départ
 ALTER TABLE contrat ADD CONSTRAINT ck_contrat_km_coherents
-    CHECK
+    CHECK (kilometrage_depart IS NULL OR kilometrage_retour IS NULL
+           OR kilometrage_retour >= kilometrage_depart);
