@@ -182,6 +182,19 @@ WHERE c.statut_contrat = 'cloture'
 GROUP BY a.id_agence, a.nom_agence
 ORDER BY chiffre_affaires DESC;
 
+-- Activité par catégorie : nombre de locations clôturées et part des retours en retard
+SELECT k.libelle_categorie,
+       COUNT(c.num_contrat) AS nb_locations,
+       SUM(CASE WHEN c.date_heure_retour_reelles > c.date_heure_retour_prevu THEN 1 ELSE 0 END) AS nb_retards,
+       ROUND(100 * SUM(CASE WHEN c.date_heure_retour_reelles > c.date_heure_retour_prevu THEN 1 ELSE 0 END)
+             / NULLIF(COUNT(c.num_contrat), 0), 1) AS pct_retards
+FROM categorie k
+LEFT JOIN voiture v ON v.id_categorie = k.id_categorie
+LEFT JOIN contrat c ON c.immatriculation_voiture = v.immatriculation_voiture
+                   AND c.statut_contrat = 'cloture'
+GROUP BY k.id_categorie, k.libelle_categorie
+ORDER BY nb_locations DESC;
+
 -- Les 5 véhicules les moins rentables (chiffre d'affaires moins coût de maintenance)
 SELECT v.immatriculation_voiture,
        CONCAT(v.marque_voiture, ' ', v.modele_vehicule) AS vehicule,
@@ -243,6 +256,82 @@ WHERE c.id_agence_depart <> c.id_agence_retour
   AND c.statut_contrat <> 'annule'
 GROUP BY dep.id_agence, dep.nom_agence, ret.id_agence, ret.nom_agence
 ORDER BY nb_locations DESC, agence_depart;
+
+-- PARTIE E : questions complémentaires du siège sur la flotte et les clients
+
+-- Marques présentes dans la flotte en motorisation hybride ou électrique (DISTINCT, IN)
+SELECT DISTINCT v.marque_voiture
+FROM voiture v
+WHERE v.energie_voiture IN ('hybride', 'electrique')
+ORDER BY v.marque_voiture;
+
+-- Utilitaires rattachés aux agences parisiennes (masques LIKE)
+SELECT v.immatriculation_voiture,
+       CONCAT(v.marque_voiture, ' ', v.modele_vehicule) AS vehicule,
+       k.libelle_categorie,
+       v.id_agence
+FROM voiture v
+JOIN categorie k ON k.id_categorie = v.id_categorie
+WHERE k.libelle_categorie LIKE 'Utilitaire%'
+  AND v.id_agence LIKE 'PAR%'
+ORDER BY v.id_agence;
+
+-- Clients ayant déjà loué une berline premium (IN imbriqués)
+SELECT cl.numero_client,
+       CONCAT(cl.prenom_client, ' ', cl.nom_client) AS client,
+       cl.type_client
+FROM client cl
+WHERE cl.numero_client IN (SELECT c.numero_client
+                           FROM contrat c
+                           WHERE c.statut_contrat IN ('en cours', 'cloture')
+                             AND c.immatriculation_voiture IN (SELECT v.immatriculation_voiture
+                                                               FROM voiture v
+                                                               WHERE v.id_categorie = 'PDAR'))
+ORDER BY cl.nom_client;
+
+-- Véhicules sans aucune location depuis le 1er octobre (NOT IN)
+-- Le IS NOT NULL est indispensable : un seul NULL dans la sous-requête ferait renvoyer 0 ligne au NOT IN
+SELECT v.immatriculation_voiture,
+       CONCAT(v.marque_voiture, ' ', v.modele_vehicule) AS vehicule,
+       v.id_agence
+FROM voiture v
+WHERE v.immatriculation_voiture NOT IN (SELECT c.immatriculation_voiture
+                                        FROM contrat c
+                                        WHERE c.immatriculation_voiture IS NOT NULL
+                                          AND c.statut_contrat <> 'annule'
+                                          AND c.date_heure_depart_prevu >= '2026-10-01')
+ORDER BY v.id_agence;
+
+-- Véhicule qui a coûté le plus cher en maintenance (>= ALL)
+SELECT i.immatriculation_voiture,
+       SUM(i.cout_intervention) AS cout_maintenance
+FROM intervention i
+GROUP BY i.immatriculation_voiture
+HAVING SUM(i.cout_intervention) >= ALL (SELECT SUM(i2.cout_intervention)
+                                        FROM intervention i2
+                                        GROUP BY i2.immatriculation_voiture);
+
+-- Catégories plus chères qu'au moins une catégorie d'utilitaire (> ANY)
+SELECT k.id_categorie,
+       k.libelle_categorie,
+       k.tarif_journalier_categorie
+FROM categorie k
+WHERE k.libelle_categorie NOT LIKE 'Utilitaire%'
+  AND k.tarif_journalier_categorie > ANY (SELECT k2.tarif_journalier_categorie
+                                          FROM categorie k2
+                                          WHERE k2.libelle_categorie LIKE 'Utilitaire%')
+ORDER BY k.tarif_journalier_categorie DESC;
+
+-- Véhicules passés au moins 2 fois en atelier, avec le coût moyen (GROUP BY, HAVING)
+SELECT v.immatriculation_voiture,
+       CONCAT(v.marque_voiture, ' ', v.modele_vehicule) AS vehicule,
+       COUNT(*) AS nb_interventions,
+       ROUND(AVG(i.cout_intervention), 2) AS cout_moyen
+FROM voiture v
+JOIN intervention i ON i.immatriculation_voiture = v.immatriculation_voiture
+GROUP BY v.immatriculation_voiture, v.marque_voiture, v.modele_vehicule
+HAVING COUNT(*) >= 2
+ORDER BY nb_interventions DESC, cout_moyen DESC;
 
 -- Hausse de 5 % du tarif journalier de la catégorie IFAR
 UPDATE categorie
