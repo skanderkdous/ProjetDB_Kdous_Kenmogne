@@ -1,11 +1,21 @@
-
 INSERT INTO permis VALUES ('999999999999', '2015-01-01');
 INSERT INTO client VALUES ('CLI00001', 'Test', 'Test', 'particulier', NULL,
                            'test@exemple.fr', '0600000000', '999999999999');
 
 INSERT INTO voiture VALUES ('HA-100-AA', 'Renault', 'Clio', '2025-01-01', 'essence', 'ZZZZ', 'PAR01');
 
-DELETE FROM agence WHERE id_agence = 'PAR01';
+-- Démonstration ON UPDATE / ON DELETE (annulée par ROLLBACK, la base reste intacte)
+START TRANSACTION;
+-- ON UPDATE CASCADE : le nouveau numéro de permis est recopié dans CLIENT
+UPDATE permis SET numero_permis = 'PERMIS-TEST' WHERE numero_permis = (SELECT numero_permis FROM client WHERE numero_client = 'CLI00001');
+SELECT numero_client, numero_permis FROM client WHERE numero_client = 'CLI00001';
+-- ON DELETE CASCADE : supprimer une voiture supprime ses interventions
+SELECT COUNT(*) AS interventions_avant FROM intervention WHERE immatriculation_voiture = 'GA-214-KL';
+-- ON DELETE SET NULL : ses contrats sont gardés, sans véhicule
+DELETE FROM voiture WHERE immatriculation_voiture = 'GA-214-KL';
+SELECT COUNT(*) AS interventions_apres FROM intervention WHERE immatriculation_voiture = 'GA-214-KL';
+SELECT COUNT(*) AS contrats_sans_vehicule FROM contrat WHERE immatriculation_voiture IS NULL;
+ROLLBACK;
 INSERT INTO contrat (num_contrat, statut_contrat, date_heure_depart_prevu, date_heure_retour_prevu,
                      numero_client, matricule_employe, id_agence_depart, id_agence_retour)
 VALUES ('CT2026-99901', 'reserve', '2026-12-10 09:00:00', '2026-12-12 09:00:00',
