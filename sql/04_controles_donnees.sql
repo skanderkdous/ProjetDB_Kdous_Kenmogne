@@ -1,5 +1,6 @@
+-- Contrôle des règles de gestion : nb_anomalies doit valoir 0 sur chaque ligne
 
-
+-- R1 : l'employé qui établit le contrat appartient à l'agence de départ
 SELECT 'R1 - contrat établi par un employé d''une autre agence' AS regle_de_gestion,
        COUNT(*) AS nb_anomalies
 FROM contrat c
@@ -8,6 +9,7 @@ WHERE e.id_agence <> c.id_agence_depart
 
 UNION ALL
 
+-- R2 : permis d'au moins 1 an au départ (2 ans pour PDAR et FKMD)
 SELECT 'R2 - permis trop récent au moment du départ',
        COUNT(*)
 FROM contrat c
@@ -20,6 +22,7 @@ WHERE c.statut_contrat <> 'annule'
 
 UNION ALL
 
+-- R3 : un même véhicule n'a jamais deux locations qui se chevauchent
 SELECT 'R3 - deux locations du même véhicule qui se chevauchent',
        COUNT(*)
 FROM contrat a
@@ -32,6 +35,7 @@ WHERE a.statut_contrat <> 'annule'
 
 UNION ALL
 
+-- R4 : aucune intervention pendant une location du véhicule
 SELECT 'R4 - intervention pendant une location du véhicule',
        COUNT(*)
 FROM intervention i
@@ -42,6 +46,7 @@ WHERE c.statut_contrat <> 'annule'
 
 UNION ALL
 
+-- R5 : le compteur d'un véhicule ne recule jamais d'une location à l'autre
 SELECT 'R5 - compteur qui recule entre deux locations',
        COUNT(*)
 FROM contrat a
@@ -51,6 +56,7 @@ WHERE b.kilometrage_depart < a.kilometrage_retour
 
 UNION ALL
 
+-- MCD : chaque client a au moins un contrat
 SELECT 'MCD - client sans contrat (signe 1,n)',
        COUNT(*)
 FROM client cl
@@ -58,6 +64,7 @@ WHERE NOT EXISTS (SELECT 1 FROM contrat c WHERE c.numero_client = cl.numero_clie
 
 UNION ALL
 
+-- MCD : chaque catégorie a au moins un véhicule
 SELECT 'MCD - catégorie sans véhicule (appartient 1,n)',
        COUNT(*)
 FROM categorie k
@@ -65,6 +72,7 @@ WHERE NOT EXISTS (SELECT 1 FROM voiture v WHERE v.id_categorie = k.id_categorie)
 
 UNION ALL
 
+-- MCD : chaque agence a au moins un employé
 SELECT 'MCD - agence sans employé (travaille 1,n)',
        COUNT(*)
 FROM agence a
