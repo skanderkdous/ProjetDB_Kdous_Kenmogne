@@ -73,3 +73,37 @@ ALTER TABLE contrat ADD CONSTRAINT ck_contrat_km_positifs
 ALTER TABLE contrat ADD CONSTRAINT ck_contrat_km_coherents
     CHECK (kilometrage_depart IS NULL OR kilometrage_retour IS NULL
            OR kilometrage_retour >= kilometrage_depart);
+
+-- Une location en cours ou clôturée a un kilométrage de départ
+-- (le véhicule n'est pas testé ici : MySQL interdit un CHECK sur une colonne
+--  de clé étrangère en CASCADE / SET NULL ; ce contrôle est fait dans 04, règle R6)
+ALTER TABLE contrat ADD CONSTRAINT ck_contrat_depart_effectue
+    CHECK (statut_contrat IN ('reserve', 'annule') OR kilometrage_depart IS NOT NULL);
+
+-- Une réservation ou une annulation n'a ni date ni kilométrage de retour
+ALTER TABLE contrat ADD CONSTRAINT ck_contrat_pas_de_retour_avant_depart
+    CHECK (statut_contrat IN ('en cours', 'cloture')
+           OR (date_heure_retour_reelles IS NULL AND kilometrage_retour IS NULL));
+
+-- Un contrat clôturé a forcément une date et un kilométrage de retour
+ALTER TABLE contrat ADD CONSTRAINT ck_contrat_cloture
+    CHECK (statut_contrat <> 'cloture'
+           OR (date_heure_retour_reelles IS NOT NULL AND kilometrage_retour IS NOT NULL));
+
+-- Format du numéro de contrat : CT + année + tiret + 5 chiffres (12 caractères)
+ALTER TABLE contrat ADD CONSTRAINT ck_contrat_numero
+    CHECK (num_contrat LIKE 'CT____-_____');
+
+
+-- Une intervention est de l'un des 6 types prévus
+ALTER TABLE intervention ADD CONSTRAINT ck_intervention_type
+    CHECK (type_intervention IN ('vidange', 'revision', 'pneus', 'controle technique',
+                                 'carrosserie', 'panne'));
+
+-- Un coût est positif ou nul (intervention sous garantie)
+ALTER TABLE intervention ADD CONSTRAINT ck_intervention_cout
+    CHECK (cout_intervention >= 0);
+
+-- Format du numéro d'intervention : INT + 7 chiffres (10 caractères)
+ALTER TABLE intervention ADD CONSTRAINT ck_intervention_numero
+    CHECK (num_intervention LIKE 'INT_______');
